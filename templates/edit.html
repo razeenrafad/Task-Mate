@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Edit Task - Daily Task Tracker</title>
+    <!-- Link to external CSS file for styling -->
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+  </head>
+  <body>
+    <!-- Main container for the edit form -->
+    <div class="container">
+      <!-- Header section -->
+      <header>
+        <h1>✏️ Edit Task</h1>
+        <p>Update your task details</p>
+      </header>
+
+      <!-- Flash messages section for user feedback -->
+      {% with messages = get_flashed_messages(with_categories=true) %} {% if
+      messages %}
+      <div class="messages">
+        {% for category, message in messages %}
+        <div class="alert alert-{{ category }}">{{ message }}</div>
+        {% endfor %}
+      </div>
+      {% endif %} {% endwith %}
+
+      <!-- Edit task form -->
+      <div class="add-task-section">
+        <form
+          action="{{ url_for('edit_task', task_id=task.id) }}"
+          method="POST"
+          class="task-form"
+        >
+          <!-- Task title input field with current value -->
+          <div class="form-group">
+            <label for="title">Task Title *</label>
+            <input
+              type="text"
+              id="title"
+              name="title"
+              value="{{ task.title }}"
+              required
+              placeholder="Enter task title..."
+            />
+          </div>
+
+          <!-- Task description textarea with current value -->
+          <div class="form-group">
+            <label for="description">Description (Optional)</label>
+            <textarea
+              id="description"
+              name="description"
+              placeholder="Enter task description..."
+            >
+{{ task.description }}</textarea
+            >
+          </div>
+
+          <!-- Form action buttons -->
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Update Task</button>
+            <a href="{{ url_for('index') }}" class="btn btn-secondary"
+              >Cancel</a
+            >
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Footer with app information -->
+    <footer>
+      <p>&copy; 2024 Daily Task Tracker. Built with Flask & SQLite.</p>
+    </footer>
+  </body>
+</html>
